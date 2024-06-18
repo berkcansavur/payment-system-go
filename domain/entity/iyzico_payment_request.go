@@ -1,20 +1,21 @@
 package entity
 
 type IyzicoPaymentRequest struct {
-	Locale         string      `json:"locale"`
-	ConversationId string      `json:"conversationId"`
-	Price          string      `json:"price"`
-	PaidPrice      string      `json:"paidPrice"`
-	Currency       string      `json:"currency"`
-	Installment    int         `json:"installment"`
-	BasketId       string      `json:"basketId"`
-	PaymentChannel string      `json:"paymentChannel"`
-	PaymentGroup   string      `json:"paymentGroup"`
-	PaymentCard    PaymentCard `json:"paymentCard"`
-	Buyer          Buyer       `json:"buyer"`
-	ShippingAddress Address     `json:"shippingAddress"`
-	BillingAddress  Address     `json:"billingAddress"`
+	Locale          string       `json:"locale"`
+	ConversationId  string       `json:"conversationId"`
+	Price           string       `json:"price"`
+	PaidPrice       string       `json:"paidPrice"`
+	Currency        string       `json:"currency"`
+	Installment     int          `json:"installment"`
+	BasketId        string       `json:"basketId"`
+	PaymentChannel  string       `json:"paymentChannel"`
+	PaymentGroup    string       `json:"paymentGroup"`
+	PaymentCard     PaymentCard  `json:"paymentCard"`
+	Buyer           Buyer        `json:"buyer"`
+	ShippingAddress Address      `json:"shippingAddress"`
+	BillingAddress  Address      `json:"billingAddress"`
 	BasketItems     []BasketItem `json:"basketItems"`
+	CallbackUrl     string       `json:"callbackUrl"`
 }
 type PaymentCard struct {
 	CardHolderName string `json:"cardHolderName"`
@@ -40,11 +41,11 @@ type Buyer struct {
 	Ip                  string `json:"ip"`
 }
 type Address struct {
+	Address     string `json:"address"`
+	ZipCode     string `json:"zipCode"`
 	ContactName string `json:"contactName"`
 	City        string `json:"city"`
 	Country     string `json:"country"`
-	Description string `json:"description"`
-	ZipCode     string `json:"zipCode"`
 }
 type BasketItem struct {
 	Id        string `json:"id"`
