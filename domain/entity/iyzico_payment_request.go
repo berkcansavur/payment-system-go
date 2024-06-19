@@ -20,8 +20,8 @@ type IyzicoPaymentRequest struct {
 type PaymentCard struct {
 	CardHolderName string `json:"cardHolderName"`
 	CardNumber     string `json:"cardNumber"`
-	ExpireMonth    string `json:"expireMonth"`
 	ExpireYear     string `json:"expireYear"`
+	ExpireMonth    string `json:"expireMonth"`
 	Cvc            string `json:"cvc"`
 	RegisterCard   int    `json:"registerCard"`
 }
@@ -56,28 +56,60 @@ type BasketItem struct {
 	Price     string `json:"price"`
 }
 type InitializeBkmRequest struct {
-	Locale              string       `json:"locale,omitempty"`
-	ConversationID      string       `json:"conversationId,omitempty"`
-	Price               string       `json:"price,omitempty"`
-	Installment         string       `json:"installment,omitempty"`
-	PaymentChannel      string       `json:"paymentChannel,omitempty"`
-	BasketID            string       `json:"basketId,omitempty"`
-	PaymentGroup        string       `json:"paymentGroup,omitempty"`
-	PaymentCard         PaymentCard  `json:"paymentCard,omitempty"`
-	Buyer               Buyer        `json:"buyer,omitempty"`
-	ShippingAddress     Address      `json:"shippingAddress,omitempty"`
-	BillingAddress      Address      `json:"billingAddress,omitempty"`
-	BasketItems         []BasketItem `json:"basketItems,omitempty"`
-	CallbackURL         string       `json:"callbackUrl,omitempty"`
-	PaymentSource       string       `json:"paymentSource,omitempty"`
-	Currency            string       `json:"currency,omitempty"`
-	PaidPrice           string       `json:"paidPrice,omitempty"`
-	ForceThreeDS        string       `json:"forceThreeDS,omitempty"`
-	CardUserKey         string       `json:"cardUserKey,omitempty"`
-	EnabledInstallments string       `json:"enabledInstallments,omitempty"`
+	Locale          string       `json:"locale,omitempty"`
+	ConversationID  string       `json:"conversationId,omitempty"`
+	Price           string       `json:"price,omitempty"`
+	PaymentChannel  string       `json:"paymentChannel,omitempty"`
+	BasketID        string       `json:"basketId,omitempty"`
+	PaymentGroup    string       `json:"paymentGroup,omitempty"`
+	PaymentCard     PaymentCard  `json:"paymentCard,omitempty"`
+	Buyer           Buyer        `json:"buyer,omitempty"`
+	ShippingAddress Address      `json:"shippingAddress,omitempty"`
+	BillingAddress  Address      `json:"billingAddress,omitempty"`
+	BasketItems     []BasketItem `json:"basketItems,omitempty"`
+	CallbackURL     string       `json:"callbackUrl,omitempty"`
 }
 type RetrieveBkmResultRequest struct {
 	Locale         string `json:"locale,omitempty"`
 	ConversationID string `json:"conversationId,omitempty"`
 	Token          string `json:"token"`
+}
+type BillingAddress struct {
+	Address     string `json:"address"`
+	ContactName string `json:"contactName"`
+	City        string `json:"city"`
+	Country     string `json:"country"`
+}
+type CreateMixPaymentRequest struct {
+	Locale          string       `json:"locale"`
+	ConversationID  string       `json:"conversationId"`
+	Price           string       `json:"price"`
+	PaidPrice       string       `json:"paidPrice"`
+	Installment     int          `json:"installment"`
+	PaymentChannel  string       `json:"paymentChannel"`
+	BasketID        string       `json:"basketId"`
+	PaymentGroup    string       `json:"paymentGroup"`
+	PaymentCard     PaymentCard  `json:"paymentCard"`
+	Buyer           Buyer        `json:"buyer"`
+	ShippingAddress Address      `json:"shippingAddress"`
+	BillingAddress  Address      `json:"billingAddress"`
+	BasketItems     []BasketItem `json:"basketItems"`
+	Currency        string       `json:"currency"`
+	CallbackURL     string       `json:"callbackUrl,omitempty"`
+}
+type CreatePaymentRequest struct {
+	Locale          string         `json:"locale"`
+	ConversationID  string         `json:"conversationId"`
+	Price           string         `json:"price"`
+	PaidPrice       string         `json:"paidPrice"`
+	Installment     int            `json:"installment"`
+	PaymentChannel  string         `json:"paymentChannel"`
+	BasketID        string         `json:"basketId"`
+	PaymentGroup    string         `json:"paymentGroup"`
+	PaymentCard     PaymentCard    `json:"paymentCard"`
+	Buyer           Buyer          `json:"buyer"`
+	ShippingAddress Address        `json:"shippingAddress"`
+	BillingAddress  BillingAddress `json:"billingAddress"`
+	BasketItems     []BasketItem   `json:"basketItems"`
+	Currency        string         `json:"currency"`
 }
