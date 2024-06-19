@@ -9,10 +9,10 @@ type PaymentUsecase struct {
 	PaymentRepo payment_interfaces.IPaymentRepository
 }
 
-func (u *PaymentUsecase) ProcessBkm(initialization entity.InitializeBkmRequest) (entity.PaymentResponse, error) {
+func (u *PaymentUsecase) ProcessBkm(initialization entity.InitializeBkmRequest) (entity.InitializeBkmResult, error) {
 	response, auth, err := u.PaymentRepo.InitializeBkm(initialization)
 	if err != nil {
-		return entity.PaymentResponse{}, err
+		return entity.InitializeBkmResult{}, err
 	}
 
 	retrieveBkmResultDto := entity.RetrieveBkmResultRequest{
@@ -22,4 +22,8 @@ func (u *PaymentUsecase) ProcessBkm(initialization entity.InitializeBkmRequest) 
 	}
 
 	return u.PaymentRepo.RetrieveBkmResult(retrieveBkmResultDto, auth)
+}
+func (u *PaymentUsecase) CreatePayment(createPaymentRequest entity.CreatePaymentRequest) (entity.CreatePaymentResult, error) {
+
+	return u.PaymentRepo.CreatePayment(createPaymentRequest)
 }

@@ -57,3 +57,42 @@ func FormatInitializeBkm(initializeBkm entity.InitializeBkmRequest) string {
 
 	return buffer.String()
 }
+func FormatPaymentCard(paymentCard entity.PaymentCard) string {
+	return fmt.Sprintf("[cardHolderName=%s,cardNumber=%s,expireYear=%s,expireMonth=%s,cvc=%s,registerCard=%d]",
+		paymentCard.CardHolderName, paymentCard.CardNumber, paymentCard.ExpireYear, paymentCard.ExpireMonth, paymentCard.Cvc, paymentCard.RegisterCard)
+}
+func FormatBillingAddress(address entity.BillingAddress) string {
+	return fmt.Sprintf("[address=%s,contactName=%s,city=%s,country=%s]",
+		address.Address, address.ContactName, address.City, address.Country)
+}
+func FormatCreatePayment(createPayment entity.CreatePaymentRequest) string {
+	var buffer bytes.Buffer
+	buffer.WriteString("[")
+	buffer.WriteString(fmt.Sprintf("locale=%s,", createPayment.Locale))
+	buffer.WriteString(fmt.Sprintf("conversationId=%s,", createPayment.ConversationID))
+	buffer.WriteString(fmt.Sprintf("price=%s,", createPayment.Price))
+	buffer.WriteString(fmt.Sprintf("paidPrice=%s,", createPayment.PaidPrice))
+	buffer.WriteString(fmt.Sprintf("installment=%d,", createPayment.Installment))
+	buffer.WriteString(fmt.Sprintf("paymentChannel=%s,", createPayment.PaymentChannel))
+	buffer.WriteString(fmt.Sprintf("basketId=%s,", createPayment.BasketID))
+	buffer.WriteString(fmt.Sprintf("paymentGroup=%s,", createPayment.PaymentGroup))
+	buffer.WriteString("paymentCard=")
+	buffer.WriteString(FormatPaymentCard(createPayment.PaymentCard))
+	buffer.WriteString(",")
+	buffer.WriteString("buyer=")
+	buffer.WriteString(FormatBuyer(createPayment.Buyer))
+	buffer.WriteString(",")
+	buffer.WriteString("shippingAddress=")
+	buffer.WriteString(FormatAddress(createPayment.ShippingAddress))
+	buffer.WriteString(",")
+	buffer.WriteString("billingAddress=")
+	buffer.WriteString(FormatBillingAddress(createPayment.BillingAddress))
+	buffer.WriteString(",")
+	buffer.WriteString("basketItems=[")
+	buffer.WriteString(FormatBasketItems(createPayment.BasketItems))
+	buffer.WriteString("],")
+	buffer.WriteString(fmt.Sprintf("currency=%s", createPayment.Currency))
+	buffer.WriteString("]")
+
+	return buffer.String()
+}

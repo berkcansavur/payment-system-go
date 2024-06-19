@@ -6,8 +6,6 @@ import (
 
 type StripeRepository struct{}
 
-func (r *StripeRepository) ProcessPayment(payment entity.Payment) (entity.PaymentResponse, error) {
-    // Stripe API işlemleri burada yapılacak
-    // Örnek geri dönüş
-    return entity.PaymentResponse{Status: "success", Message: "Stripe payment successful"}, nil
+func (r *StripeRepository) ProcessPayment(payment entity.Payment) (entity.PaymentResult, error) {
+	return entity.PaymentResult{Status: "success", Message: "Stripe payment successful"}, nil
 }

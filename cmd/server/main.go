@@ -29,5 +29,6 @@ func main() {
 	paymentController := &controller.PaymentController{Usecase: paymentUsecase}
 
 	http.HandleFunc("/payment/bkm", paymentController.ProcessBkm)
+	http.HandleFunc("/payment/create", paymentController.CreatePayment)
 	http.ListenAndServe(":8080", nil)
 }

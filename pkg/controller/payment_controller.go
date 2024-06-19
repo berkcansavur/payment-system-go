@@ -33,3 +33,24 @@ func (c *PaymentController) ProcessBkm(w http.ResponseWriter, r *http.Request) {
 
 	json.NewEncoder(w).Encode(response)
 }
+func (c *PaymentController) CreatePayment(w http.ResponseWriter, r *http.Request) {
+	var createMixPaymentRequest entity.CreatePaymentRequest
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	err = json.Unmarshal(body, &createMixPaymentRequest)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	response, err := c.Usecase.CreatePayment(createMixPaymentRequest)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	json.NewEncoder(w).Encode(response)
+}
