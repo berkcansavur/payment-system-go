@@ -55,3 +55,29 @@ type BasketItem struct {
 	ItemType  string `json:"itemType"`
 	Price     string `json:"price"`
 }
+type InitializeBkmRequest struct {
+	Locale              string       `json:"locale,omitempty"`
+	ConversationID      string       `json:"conversationId,omitempty"`
+	Price               string       `json:"price,omitempty"`
+	Installment         string       `json:"installment,omitempty"`
+	PaymentChannel      string       `json:"paymentChannel,omitempty"`
+	BasketID            string       `json:"basketId,omitempty"`
+	PaymentGroup        string       `json:"paymentGroup,omitempty"`
+	PaymentCard         PaymentCard  `json:"paymentCard,omitempty"`
+	Buyer               Buyer        `json:"buyer,omitempty"`
+	ShippingAddress     Address      `json:"shippingAddress,omitempty"`
+	BillingAddress      Address      `json:"billingAddress,omitempty"`
+	BasketItems         []BasketItem `json:"basketItems,omitempty"`
+	CallbackURL         string       `json:"callbackUrl,omitempty"`
+	PaymentSource       string       `json:"paymentSource,omitempty"`
+	Currency            string       `json:"currency,omitempty"`
+	PaidPrice           string       `json:"paidPrice,omitempty"`
+	ForceThreeDS        string       `json:"forceThreeDS,omitempty"`
+	CardUserKey         string       `json:"cardUserKey,omitempty"`
+	EnabledInstallments string       `json:"enabledInstallments,omitempty"`
+}
+type RetrieveBkmResultRequest struct {
+	Locale         string `json:"locale,omitempty"`
+	ConversationID string `json:"conversationId,omitempty"`
+	Token          string `json:"token"`
+}

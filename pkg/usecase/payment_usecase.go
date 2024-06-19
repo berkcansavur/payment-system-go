@@ -1,15 +1,25 @@
 package usecase
 
-import "payment-system/domain/entity"
-
-type PaymentRepository interface {
-    ProcessPayment(payment entity.Payment) (entity.PaymentResponse, error)
-}
+import (
+	"payment-system/domain/entity"
+	payment_interfaces "payment-system/pkg/interface"
+)
 
 type PaymentUsecase struct {
-    PaymentRepo PaymentRepository
+	PaymentRepo payment_interfaces.IPaymentRepository
 }
 
-func (u *PaymentUsecase) Execute(payment entity.Payment) (entity.PaymentResponse, error) {
-    return u.PaymentRepo.ProcessPayment(payment)
+func (u *PaymentUsecase) ProcessBkm(initialization entity.InitializeBkmRequest) (entity.PaymentResponse, error) {
+	response, auth, err := u.PaymentRepo.InitializeBkm(initialization)
+	if err != nil {
+		return entity.PaymentResponse{}, err
+	}
+
+	retrieveBkmResultDto := entity.RetrieveBkmResultRequest{
+		Locale:         response.Data.Locale,
+		ConversationID: response.Data.ConversationID,
+		Token:          response.Data.Token,
+	}
+
+	return u.PaymentRepo.RetrieveBkmResult(retrieveBkmResultDto, auth)
 }

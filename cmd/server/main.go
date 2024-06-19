@@ -14,7 +14,7 @@ import (
 func init() {
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatal("Error loading .env file")
+		log.Fatalf("Error loading .env file: %v", err)
 	}
 }
 func main() {
@@ -28,6 +28,6 @@ func main() {
 	paymentUsecase := &usecase.PaymentUsecase{PaymentRepo: iyzicoRepo}
 	paymentController := &controller.PaymentController{Usecase: paymentUsecase}
 
-	http.HandleFunc("/payment", paymentController.ProcessPayment)
+	http.HandleFunc("/payment/bkm", paymentController.ProcessBkm)
 	http.ListenAndServe(":8080", nil)
 }
