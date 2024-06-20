@@ -116,5 +116,6 @@ func (c *ClientUseCase) CheckoutClientsActiveBasket(ctx context.Context, clientI
         Currency: checkoutDto.Currency,
 
 	}
+	fmt.Print(createPaymentRequest)
 	return c.PaymentRepo.CreatePayment(createPaymentRequest)
 }

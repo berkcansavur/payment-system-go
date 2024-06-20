@@ -16,7 +16,7 @@ type ClientController struct {
 func (c *ClientController) Register(w http.ResponseWriter, r *http.Request) {
 	var createClient entity.ClientDto
 	body, err := ioutil.ReadAll(r.Body)
-
+	ctx := r.Context()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
@@ -26,7 +26,8 @@ func (c *ClientController) Register(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	ctx := r.Context()
+	
+
 	response, err := c.Usecase.Register(ctx, createClient)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -38,6 +39,7 @@ func (c *ClientController) Delete(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id := vars["id"]
 	ctx := r.Context()
+
 	response, err := c.Usecase.Delete(ctx, id)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -47,10 +49,9 @@ func (c *ClientController) Delete(w http.ResponseWriter, r *http.Request) {
 }
 func (c *ClientController) Update(w http.ResponseWriter, r *http.Request) {
 	var updateClient entity.ClientDto
-
 	vars := mux.Vars(r)
 	id := vars["id"]
-
+	ctx := r.Context()
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -63,7 +64,7 @@ func (c *ClientController) Update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	ctx := r.Context()
+	
 	response, err := c.Usecase.Update(ctx, id, updateClient)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -76,22 +77,26 @@ func (c *ClientController) Get(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id := vars["id"]
 	ctx := r.Context()
+	
 	response, err := c.Usecase.Get(ctx, id)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+
 	json.NewEncoder(w).Encode(response)
 }
 func (c *ClientController) GetCards(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id := vars["id"]
 	ctx := r.Context()
+	
 	response, err := c.Usecase.GetClientsCards(ctx, id)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+
 	json.NewEncoder(w).Encode(response)
 }
 func (c *ClientController) AddCard(w http.ResponseWriter, r *http.Request) {
@@ -103,14 +108,17 @@ func (c *ClientController) AddCard(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
+	
 	err = json.Unmarshal(body, &card)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
+
 	id := vars["id"]
 	ctx := r.Context()
 	response, err := c.Usecase.AddCard(ctx, id, card)
+
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -120,19 +128,45 @@ func (c *ClientController) AddCard(w http.ResponseWriter, r *http.Request) {
 func (c *ClientController) RemoveCard(w http.ResponseWriter, r *http.Request) {
 	var card entity.PaymentCard
 	vars := mux.Vars(r)
+	id := vars["id"]
+	ctx := r.Context()
 	body, err := ioutil.ReadAll(r.Body)
+
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
+
 	err = json.Unmarshal(body, &card)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
+
+	response, err := c.Usecase.RemoveCard(ctx, id, card)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	json.NewEncoder(w).Encode(response)
+}
+func (c *ClientController) Checkout(w http.ResponseWriter, r *http.Request) {
+	var checkoutDto entity.CheckoutDto
+	vars := mux.Vars(r)
 	id := vars["id"]
 	ctx := r.Context()
-	response, err := c.Usecase.RemoveCard(ctx, id, card)
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	err = json.Unmarshal(body, &checkoutDto)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	
+	response, err := c.Usecase.CheckoutClientsActiveBasket(ctx, id, checkoutDto)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

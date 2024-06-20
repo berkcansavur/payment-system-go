@@ -63,7 +63,6 @@ func (r *IyzicoRepository) CreatePayment(createPayment entity.CreatePaymentReque
 	client := resty.New()
 	iyzicoConfig := config.GetIyzicoConfig()
 	authorization, pkiString := generateAuthorizationAndPkiStringForCreatePayment(iyzicoConfig.APIKey, iyzicoConfig.APISecret, createPayment, iyzicoConfig.Rnd)
-
 	resp, err := client.R().
 		SetHeader("Authorization", authorization).
 		SetHeader("pkiString", pkiString).

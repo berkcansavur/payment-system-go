@@ -27,9 +27,18 @@ func main() {
 	basketRepo := repository.NewMongoBasketRepository(client, "mydatabase", "basket")
 
 	// Use cases
-	paymentUsecase := &usecase.PaymentUsecase{PaymentRepo: iyzicoRepo}
-	clientUsecase := &usecase.ClientUseCase{ClientRepo: clientRepo}
-	basketUsecase := &usecase.BasketUseCase{BasketRepo: basketRepo}
+	paymentUsecase := &usecase.PaymentUsecase{
+		PaymentRepo: iyzicoRepo,
+	}
+	clientUsecase := &usecase.ClientUseCase{
+		ClientRepo: clientRepo,
+		PaymentRepo: iyzicoRepo, 
+		BasketRepo: basketRepo, 
+	}
+	basketUsecase := &usecase.BasketUseCase{
+		BasketRepo: basketRepo,
+		ClientRepo: clientRepo,
+	}
 
 	// Controllers
 	paymentController := &controller.PaymentController{Usecase: paymentUsecase}

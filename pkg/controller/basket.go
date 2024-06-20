@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"payment-system/domain/entity"
 	"payment-system/pkg/usecase"
+
+	"github.com/gorilla/mux"
 )
 
 type BasketController struct {
@@ -14,6 +16,8 @@ type BasketController struct {
 
 func (c *BasketController) Create(w http.ResponseWriter, r *http.Request) {
 	var createBasket entity.BasketDto
+	vars := mux.Vars(r)
+	clientId := vars["id"]
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -25,7 +29,7 @@ func (c *BasketController) Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	ctx := r.Context()
-	response, err := c.Usecase.Create(ctx, createBasket)
+	response, err := c.Usecase.Create(ctx, createBasket, clientId)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

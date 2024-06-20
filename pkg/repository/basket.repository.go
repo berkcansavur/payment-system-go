@@ -96,15 +96,10 @@ func (r *BasketRepository) UpdateById(ctx context.Context, id string, updateBask
 	return &client, nil
 }
 func (r *BasketRepository) GetActiveBasketByClientId(ctx context.Context, clientId string) (*entity.BasketDto, error) {
-	objID, err := primitive.ObjectIDFromHex(clientId)
-	if err != nil {
-		return nil, fmt.Errorf("invalid client id format: %v", err)
-	}
-	
-	filter := bson.M{"client._id": objID, "isActive": true}
-
+	filter := bson.M{"client._id": clientId, "isActive": true}
 	var basket entity.BasketDto
-	err = r.Collection.FindOne(ctx, filter).Decode(&basket)
+	
+	err := r.Collection.FindOne(ctx, filter).Decode(&basket)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
 			return nil, fmt.Errorf("no active basket found for client id %s", clientId)

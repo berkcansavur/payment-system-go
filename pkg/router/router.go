@@ -15,6 +15,7 @@ func ClientRouter(r *mux.Router, clientController *controller.ClientController) 
 	r.HandleFunc("/client/{id}/cards", clientController.GetCards).Methods("GET")
 	r.HandleFunc("/client/{id}/cards", clientController.AddCard).Methods("POST")
 	r.HandleFunc("/client/{id}/cards", clientController.RemoveCard).Methods("DELETE")
+	r.HandleFunc("/client/{id}/checkout", clientController.Checkout).Methods("POST")
 }
 
 func PaymentRouter(r *mux.Router, paymentController *controller.PaymentController) {
@@ -24,5 +25,5 @@ func PaymentRouter(r *mux.Router, paymentController *controller.PaymentControlle
 }
 func BasketRouter(r *mux.Router, basketController *controller.BasketController){
 		// Basket routes
-	r.HandleFunc("/basket/create", basketController.Create).Methods("POST")
+	r.HandleFunc("/basket/create/{id}", basketController.Create).Methods("POST")
 }
