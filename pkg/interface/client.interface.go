@@ -10,4 +10,5 @@ type IClientRepository interface {
 	GetById(ctx context.Context, id string) (*entity.ClientDto, error)
 	RemoveById(ctx context.Context, id string) (*entity.ClientDto, error)
 	UpdateById(ctx context.Context, id string, updateClientDto entity.ClientDto) (*entity.ClientDto, error)
+	GetCards(ctx context.Context, id string) ([]entity.PaymentCard, error)
 }

@@ -90,3 +90,10 @@ func (r *ClientRepository) UpdateById(ctx context.Context, id string, updateClie
 
 	return &client, nil
 }
+func (r *ClientRepository) GetCards(ctx context.Context, id string) ([]entity.PaymentCard, error) {
+	client,err := r.GetById(ctx,id)
+	if err != nil {
+		return nil, err
+	}
+	return client.Cards, nil
+}

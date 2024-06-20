@@ -59,6 +59,7 @@ func main() {
 	r.HandleFunc("/client/{id}", clientController.Delete).Methods("DELETE")
 	r.HandleFunc("/client/{id}", clientController.Update).Methods("POST")
 	r.HandleFunc("/client/{id}", clientController.Get).Methods("GET")
+	r.HandleFunc("/client/cards/{id}", clientController.GetCards).Methods("GET")
 	http.Handle("/", r)
 
 	srv := &http.Server{

@@ -83,3 +83,14 @@ func (c *ClientController) Get(w http.ResponseWriter, r *http.Request) {
 	}
 	json.NewEncoder(w).Encode(response)
 }
+func (c *ClientController) GetCards(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id := vars["id"]
+	ctx := r.Context()
+	response, err := c.Usecase.GetClientsCards(ctx, id)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	json.NewEncoder(w).Encode(response)
+}
