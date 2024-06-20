@@ -9,6 +9,8 @@ import (
 
 type ClientUseCase struct {
 	ClientRepo interfaces.IClientRepository
+	BasketRepo interfaces.IBasketRepository
+	PaymentRepo interfaces.IPaymentRepository
 }
 
 func (c *ClientUseCase) Register(ctx context.Context, createClientDto entity.ClientDto) (*entity.ClientDto, error) {
@@ -71,4 +73,48 @@ func (c *ClientUseCase) RemoveCard(ctx context.Context, id string, card entity.P
 	}
 
 	return updatedClient.Cards, nil
+}
+func (c *ClientUseCase) CheckoutClientsActiveBasket(ctx context.Context, clientId string, checkoutDto entity.CheckoutDto) (entity.CreatePaymentResult, error) {
+	basket, err := c.BasketRepo.GetActiveBasketByClientId(ctx, clientId)
+	fmt.Print(basket)
+	if err != nil {
+		return entity.CreatePaymentResult{}, err
+	}
+	client, err := c.Get(ctx, clientId)
+	if err != nil {
+		return entity.CreatePaymentResult{}, err
+	}
+	buyer := entity.Buyer{
+		Id: client.Id,
+		Name: client.Name,
+        Surname: client.Surname,
+		IdentityNumber: client.IdentityNumber,
+        Email: client.Email,
+        GsmNumber: client.GsmNumber,
+		RegistrationDate: client.RegistrationDate,
+		LastLoginDate: client.LastLoginDate,
+        RegistrationAddress: client.RegistrationAddress,
+        City: client.City,
+		Country: client.Country,
+        ZipCode: client.ZipCode,
+		Ip: client.Ip,
+	}
+	createPaymentRequest := entity.CreatePaymentRequest{
+		Locale: checkoutDto.Locale,
+		ConversationID: checkoutDto.ConversationID,
+        Price: checkoutDto.Price,
+        PaidPrice: checkoutDto.PaidPrice,
+        Installment: checkoutDto.Installment,
+        PaymentChannel: checkoutDto.PaymentChannel,
+		BasketID: basket.Id,
+        PaymentGroup: checkoutDto.PaymentGroup,
+        PaymentCard: client.Cards[0],
+        Buyer: buyer,
+        ShippingAddress: client.ShippingAddress,
+		BillingAddress: client.BillingAddress,
+		BasketItems: basket.BasketItems,
+        Currency: checkoutDto.Currency,
+
+	}
+	return c.PaymentRepo.CreatePayment(createPaymentRequest)
 }

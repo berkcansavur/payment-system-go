@@ -72,3 +72,14 @@ type CreatePaymentRequest struct {
 	BasketItems     []BasketItem   `json:"basketItems"`
 	Currency        string         `json:"currency"`
 }
+
+type CheckoutDto struct {
+	Locale          string         `json:"locale"`
+	ConversationID  string         `json:"conversationId"`
+	Price           string         `json:"price"`
+	PaidPrice       string         `json:"paidPrice"`
+	Installment     int            `json:"installment"`
+	PaymentChannel  string         `json:"paymentChannel"`
+	PaymentGroup    string         `json:"paymentGroup"`
+	Currency        string         `json:"currency"`
+}

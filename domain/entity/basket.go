@@ -5,5 +5,6 @@ type BasketDto struct {
 	Client        ClientDto     `json:"client"`
 	BasketItems []BasketItem 	`json:"basketItems"`
 	TotalPrice    string        `json:"totalPrice"`
+	IsActive        bool 		`json:"isActive"`
 }
 

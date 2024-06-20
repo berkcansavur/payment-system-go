@@ -75,7 +75,12 @@ func (r *BasketRepository) UpdateById(ctx context.Context, id string, updateBask
 	
 	filter := bson.M{"_id": bson.M{"$eq": objID}}
 	update := bson.M{
-		"$set": updateBasketDto,
+		"$set": bson.M{
+			"client": 		updateBasketDto.Client,
+			"basketItems":	updateBasketDto.BasketItems,
+			"totalPrice":	updateBasketDto.TotalPrice,
+			"isActive":		updateBasketDto.IsActive,
+		},
 	}
 	opts := options.FindOneAndUpdate().SetReturnDocument(1)
 
@@ -90,3 +95,23 @@ func (r *BasketRepository) UpdateById(ctx context.Context, id string, updateBask
 
 	return &client, nil
 }
+func (r *BasketRepository) GetActiveBasketByClientId(ctx context.Context, clientId string) (*entity.BasketDto, error) {
+	objID, err := primitive.ObjectIDFromHex(clientId)
+	if err != nil {
+		return nil, fmt.Errorf("invalid client id format: %v", err)
+	}
+	
+	filter := bson.M{"client._id": objID, "isActive": true}
+
+	var basket entity.BasketDto
+	err = r.Collection.FindOne(ctx, filter).Decode(&basket)
+	if err != nil {
+		if err == mongo.ErrNoDocuments {
+			return nil, fmt.Errorf("no active basket found for client id %s", clientId)
+		}
+		return nil, fmt.Errorf("error finding active basket for client id %s: %v", clientId, err)
+	}
+
+	return &basket, nil
+}
+
