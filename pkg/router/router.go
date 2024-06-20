@@ -22,3 +22,7 @@ func PaymentRouter(r *mux.Router, paymentController *controller.PaymentControlle
 	r.HandleFunc("/payment/bkm", paymentController.ProcessBkm).Methods("POST")
 	r.HandleFunc("/payment/create", paymentController.CreatePayment).Methods("POST")
 }
+func BasketRouter(r *mux.Router, basketController *controller.BasketController){
+		// Basket routes
+	r.HandleFunc("/basket/create", basketController.Create).Methods("POST")
+}

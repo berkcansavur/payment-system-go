@@ -24,21 +24,24 @@ func main() {
 	// Repositories
 	iyzicoRepo := &repository.IyzicoRepository{}
 	clientRepo := repository.NewMongoClientRepository(client, "mydatabase", "client")
+	basketRepo := repository.NewMongoBasketRepository(client, "mydatabase", "basket")
 
 	// Use cases
 	paymentUsecase := &usecase.PaymentUsecase{PaymentRepo: iyzicoRepo}
 	clientUsecase := &usecase.ClientUseCase{ClientRepo: clientRepo}
+	basketUsecase := &usecase.BasketUseCase{BasketRepo: basketRepo}
 
 	// Controllers
 	paymentController := &controller.PaymentController{Usecase: paymentUsecase}
 	clientController := &controller.ClientController{Usecase: clientUsecase}
-
+	basketController := &controller.BasketController{Usecase: basketUsecase}
 	// Initialize the router
 	r := mux.NewRouter()
 
 	// Register the routes
 	router.ClientRouter(r, clientController)
 	router.PaymentRouter(r, paymentController)
+	router.BasketRouter(r, basketController)
 
 	http.Handle("/", r)
 
