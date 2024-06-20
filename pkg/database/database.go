@@ -23,7 +23,7 @@ func Connect(uri string) *mongo.Client {
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Println("Connected to MongoDB!")
+	log.Println("MongoDB connection established")
 
 	return client
 }

@@ -3,6 +3,7 @@ package usecase
 import (
 	"context"
 	"fmt"
+	"log"
 	"payment-system/domain/entity"
 	interfaces "payment-system/pkg/interface"
 	"strconv"
@@ -39,6 +40,7 @@ func (b *BasketUseCase) CalculateTotalPrice(basket *entity.BasketDto) (string, e
 		totalPrice += price
 	}
 	basket.TotalPrice = fmt.Sprintf("%.2f", totalPrice)
+	log.Println("Basket Total Price",basket.TotalPrice)
 	return basket.TotalPrice, nil
 }
 func (b *BasketUseCase) Abort(ctx context.Context, id string)(*entity.BasketDto, error){
