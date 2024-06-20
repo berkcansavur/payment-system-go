@@ -94,3 +94,27 @@ func (c *ClientController) GetCards(w http.ResponseWriter, r *http.Request) {
 	}
 	json.NewEncoder(w).Encode(response)
 }
+func (c *ClientController) AddCard(w http.ResponseWriter, r *http.Request) {
+	var card entity.PaymentCard
+	vars := mux.Vars(r)
+	id := vars["id"]
+	ctx := r.Context()
+	response, err := c.Usecase.AddCard(ctx, id, card)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	json.NewEncoder(w).Encode(response)
+}
+func (c *ClientController) RemoveCard(w http.ResponseWriter, r *http.Request) {
+	var card entity.PaymentCard
+	vars := mux.Vars(r)
+	id := vars["id"]
+	ctx := r.Context()
+	response, err := c.Usecase.RemoveCard(ctx, id, card)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	json.NewEncoder(w).Encode(response)
+}
