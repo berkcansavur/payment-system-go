@@ -11,8 +11,8 @@ import (
 
 type ConfigurationProvider interface {
 	GetApiURL() string
-	GetApiKey() string
-	GetApiSecret() string
+	GetIyzicoApiKey() string
+	GetIyzicoApiSecret() string
 	GetRandomString() string
 	GetIyzicoConfig() IyzicoConfig
 }
@@ -21,14 +21,16 @@ func GetApiURL() string {
 	return os.Getenv("IYZICO_BASE_URL")
 }
 
-func GetApiKey() string {
+func GetIyzicoApiKey() string {
 	return os.Getenv("IYZICO_API_KEY")
 }
 
-func GetApiSecret() string {
+func GetIyzicoApiSecret() string {
 	return os.Getenv("IYZICO_SECRET")
 }
-
+func GetMongoUri() string {
+	return os.Getenv("MONGODB_URI")
+}
 func GetRandomString() string {
 	return strconv.FormatInt(time.Now().UnixNano(), 10)
 }
@@ -43,15 +45,15 @@ type IyzicoConfig struct {
 func GetIyzicoConfig() *IyzicoConfig {
 	return &IyzicoConfig{
 		BaseURL:   GetApiURL(),
-		APIKey:    GetApiKey(),
-		APISecret: GetApiSecret(),
+		APIKey:    GetIyzicoApiKey(),
+		APISecret: GetIyzicoApiSecret(),
 		Rnd:       GetRandomString(),
 	}
 }
 type Config struct {
-	ApiKey    string
-	ApiSecret string
-	DbURI     string
+	IyzicoApiKey    string
+	IyzicoApiSecret string
+	DbURI     		string
 }
 
 func LoadConfig() *Config {
@@ -61,8 +63,8 @@ func LoadConfig() *Config {
 	}
 
 	return &Config{
-		ApiKey:    os.Getenv("IYZICO_API_KEY"),
-		ApiSecret: os.Getenv("IYZICO_SECRET"),
-		DbURI:     os.Getenv("MONGODB_URI"),
+		IyzicoApiKey:    GetIyzicoApiKey(),
+		IyzicoApiSecret: GetIyzicoApiSecret(),
+		DbURI:     		 GetMongoUri(),
 	}
 }

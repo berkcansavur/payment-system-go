@@ -75,7 +75,23 @@ func (r *ClientRepository) UpdateById(ctx context.Context, id string, updateClie
 	
 	filter := bson.M{"_id": bson.M{"$eq": objID}}
 	update := bson.M{
-		"$set": updateClientDto,
+		"$set": bson.M{
+			"name":                updateClientDto.Name,
+			"surname":             updateClientDto.Surname,
+			"identityNumber":      updateClientDto.IdentityNumber,
+			"email":               updateClientDto.Email,
+			"gsmNumber":           updateClientDto.GsmNumber,
+			"registrationDate":    updateClientDto.RegistrationDate,
+			"lastLoginDate":       updateClientDto.LastLoginDate,
+			"registrationAddress": updateClientDto.RegistrationAddress,
+			"city":                updateClientDto.City,
+			"country":             updateClientDto.Country,
+			"zipCode":             updateClientDto.ZipCode,
+			"ip":                  updateClientDto.Ip,
+			"cards":               updateClientDto.Cards,
+			"shippingAddress":     updateClientDto.ShippingAddress,
+			"billingAddress":      updateClientDto.BillingAddress,
+		},
 	}
 	opts := options.FindOneAndUpdate().SetReturnDocument(1)
 

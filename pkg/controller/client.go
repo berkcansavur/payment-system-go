@@ -97,6 +97,17 @@ func (c *ClientController) GetCards(w http.ResponseWriter, r *http.Request) {
 func (c *ClientController) AddCard(w http.ResponseWriter, r *http.Request) {
 	var card entity.PaymentCard
 	vars := mux.Vars(r)
+	body, err := ioutil.ReadAll(r.Body)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	err = json.Unmarshal(body, &card)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
 	id := vars["id"]
 	ctx := r.Context()
 	response, err := c.Usecase.AddCard(ctx, id, card)
@@ -109,6 +120,16 @@ func (c *ClientController) AddCard(w http.ResponseWriter, r *http.Request) {
 func (c *ClientController) RemoveCard(w http.ResponseWriter, r *http.Request) {
 	var card entity.PaymentCard
 	vars := mux.Vars(r)
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	err = json.Unmarshal(body, &card)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
 	id := vars["id"]
 	ctx := r.Context()
 	response, err := c.Usecase.RemoveCard(ctx, id, card)

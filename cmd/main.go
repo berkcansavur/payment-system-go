@@ -1,29 +1,22 @@
 package main
 
 import (
-	"log"
 	"net/http"
+	"payment-system/cmd/server"
 	"payment-system/pkg/config"
 	"payment-system/pkg/controller"
 	"payment-system/pkg/database"
 	"payment-system/pkg/repository"
 	"payment-system/pkg/router"
 	"payment-system/pkg/usecase"
-	"time"
 
 	"github.com/gorilla/mux"
-	"go.mongodb.org/mongo-driver/mongo"
 )
 
-var (
-	client *mongo.Client
-)
 
 
 func main() {
 	cfg := config.LoadConfig()
-	log.Println("API Key:", cfg.ApiKey)
-	log.Println("API Secret:", cfg.ApiSecret)
 
 	// Connect to database
 	client := database.Connect(cfg.DbURI)
@@ -49,10 +42,5 @@ func main() {
 
 	http.Handle("/", r)
 
-	srv := &http.Server{
-		Addr:         ":8080",
-		WriteTimeout: 15 * time.Second,
-		ReadTimeout:  15 * time.Second,
-	}
-	log.Fatal(srv.ListenAndServe())
+	server.Start(r)
 }
