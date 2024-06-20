@@ -17,14 +17,6 @@ type IyzicoPaymentRequest struct {
 	BasketItems     []BasketItem `json:"basketItems"`
 	CallbackUrl     string       `json:"callbackUrl"`
 }
-type PaymentCard struct {
-	CardHolderName string `json:"cardHolderName"`
-	CardNumber     string `json:"cardNumber"`
-	ExpireYear     string `json:"expireYear"`
-	ExpireMonth    string `json:"expireMonth"`
-	Cvc            string `json:"cvc"`
-	RegisterCard   int    `json:"registerCard"`
-}
 type Buyer struct {
 	Id                  string `json:"id"`
 	Name                string `json:"name"`

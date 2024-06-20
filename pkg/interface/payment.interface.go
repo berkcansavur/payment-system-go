@@ -1,4 +1,4 @@
-package payment_interfaces
+package interfaces
 
 import "payment-system/domain/entity"
 
