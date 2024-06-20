@@ -41,6 +41,6 @@ func (b *BasketUseCase) CalculateTotalPrice(basket *entity.BasketDto) (string, e
 	basket.TotalPrice = fmt.Sprintf("%.2f", totalPrice)
 	return basket.TotalPrice, nil
 }
-// func (b *BasketUseCase) Abort(ctx context.Context, id string)(*entity.BasketDto, error){
-//     return b.BasketRepo.UpdateById(ctx, id,)
-// }
+func (b *BasketUseCase) Abort(ctx context.Context, id string)(*entity.BasketDto, error){
+    return b.BasketRepo.RemoveById(ctx,id)
+}
