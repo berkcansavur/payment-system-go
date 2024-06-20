@@ -4,7 +4,7 @@
 Payment System is a service that handles client registration, payment processing, and basket management by iyzico integration. It utilizes MongoDB as its database and provides a RESTful API for interactions.
 
 ## Project Structure
-
+```sh
 payment-system/
 ├── cmd/
 │   └── server/
@@ -48,7 +48,7 @@ payment-system/
 │       ├── client.go
 │       └── payment.go
 └── main.go
-
+```
 ## Prerequisites
 
 - Go 1.16+
