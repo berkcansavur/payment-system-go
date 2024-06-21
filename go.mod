@@ -5,6 +5,7 @@ go 1.22.1
 require github.com/go-resty/resty/v2 v2.13.1
 
 require (
+	github.com/berkcansavur/iyzico-authorization v1.0.0 // indirect
 	github.com/golang/snappy v0.0.1 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/gorilla/mux v1.8.1 // indirect

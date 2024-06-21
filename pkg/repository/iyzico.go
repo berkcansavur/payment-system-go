@@ -4,15 +4,16 @@ import (
 	"payment-system/domain/entity"
 	"payment-system/pkg/config"
 
+	"github.com/berkcansavur/iyzico-authorization"
 	"github.com/go-resty/resty/v2"
 )
 
 type IyzicoRepository struct{}
 
-func (r *IyzicoRepository) InitializeBkm(initializeBkm entity.InitializeBkmRequest) (entity.InitializeBkmResult, entity.Authorization, error) {
+func (r *IyzicoRepository) InitializeBkm(initializeBkm iyzico.InitializeBkmRequest) (entity.InitializeBkmResult, entity.Authorization, error) {
 	client := resty.New()
 	iyzicoConfig := config.GetIyzicoConfig()
-	authorization, pkiString := generateAuthorizationAndPkiString(iyzicoConfig.APIKey, iyzicoConfig.APISecret, initializeBkm, iyzicoConfig.Rnd)
+	authorization, pkiString,_ := iyzico.GenerateAuthorizationAndPkiString(iyzicoConfig.APIKey, iyzicoConfig.APISecret, initializeBkm, iyzicoConfig.Rnd)
 
 	auth := entity.Authorization{
 		Authorization: authorization,
@@ -59,10 +60,14 @@ func (r *IyzicoRepository) RetrieveBkmResult(resultArgs entity.RetrieveBkmResult
 	}
 	return entity.InitializeBkmResult{Status: "fail", Message: iyzicoResponse.Status}, nil
 }
-func (r *IyzicoRepository) CreatePayment(createPayment entity.CreatePaymentRequest) (entity.CreatePaymentResult, error) {
+func (r *IyzicoRepository) CreatePayment(createPayment iyzico.CreatePaymentRequest) (entity.CreatePaymentResult, error) {
 	client := resty.New()
 	iyzicoConfig := config.GetIyzicoConfig()
-	authorization, pkiString := generateAuthorizationAndPkiStringForCreatePayment(iyzicoConfig.APIKey, iyzicoConfig.APISecret, createPayment, iyzicoConfig.Rnd)
+	authorization, pkiString, err := iyzico.GenerateAuthorizationAndPkiStringForCreatePayment(iyzicoConfig.APIKey, iyzicoConfig.APISecret, createPayment, iyzicoConfig.Rnd)
+
+	if err != nil {
+		return entity.CreatePaymentResult{Status: "fail", Message: err.Error()}, err
+	}
 	resp, err := client.R().
 		SetHeader("Authorization", authorization).
 		SetHeader("pkiString", pkiString).

@@ -1,3 +1,5 @@
+github.com/berkcansavur/iyzico-authorization v1.0.0 h1:JtRcqwXA7HTMYDH/YAIgMgw639sCk9xy7msYvA4PNyY=
+github.com/berkcansavur/iyzico-authorization v1.0.0/go.mod h1:KeeeeejiH9kENVViCOcqNOk3+gi3fEj828bIVBrsOeA=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/go-resty/resty/v2 v2.13.1 h1:x+LHXBI2nMB1vqndymf26quycC4aggYJ7DECYbiz03g=

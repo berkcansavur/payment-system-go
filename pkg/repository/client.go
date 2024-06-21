@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"payment-system/domain/entity"
 
+	"github.com/berkcansavur/iyzico-authorization"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -106,7 +107,7 @@ func (r *ClientRepository) UpdateById(ctx context.Context, id string, updateClie
 
 	return &client, nil
 }
-func (r *ClientRepository) GetCards(ctx context.Context, id string) ([]entity.PaymentCard, error) {
+func (r *ClientRepository) GetCards(ctx context.Context, id string) ([]iyzico.PaymentCard, error) {
 	client,err := r.GetById(ctx,id)
 	if err != nil {
 		return nil, err

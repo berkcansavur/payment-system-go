@@ -1,9 +1,13 @@
 package interfaces
 
-import "payment-system/domain/entity"
+import (
+	"payment-system/domain/entity"
+
+	"github.com/berkcansavur/iyzico-authorization"
+)
 
 type IPaymentRepository interface {
-	InitializeBkm(initialization entity.InitializeBkmRequest) (entity.InitializeBkmResult, entity.Authorization, error)
+	InitializeBkm(initialization iyzico.InitializeBkmRequest) (entity.InitializeBkmResult, entity.Authorization, error)
 	RetrieveBkmResult(retrieveBkmResult entity.RetrieveBkmResultRequest, auth entity.Authorization) (entity.InitializeBkmResult, error)
-	CreatePayment(createPayment entity.CreatePaymentRequest) (entity.CreatePaymentResult, error)
+	CreatePayment(createPayment iyzico.CreatePaymentRequest) (entity.CreatePaymentResult, error)
 }

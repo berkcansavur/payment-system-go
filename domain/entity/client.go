@@ -1,5 +1,7 @@
 package entity
 
+import "github.com/berkcansavur/iyzico-authorization"
+
 type ClientDto struct {
 	Id                  string 			`json:"id" bson:"_id,omitempty"`
 	Name                string 			`json:"name" bson:"name"`
@@ -14,7 +16,7 @@ type ClientDto struct {
 	Country             string 			`json:"country" bson:"country"`
 	ZipCode             string 			`json:"zipCode" bson:"zipCode"`
 	Ip                  string 			`json:"ip" bson:"ip"`
-	Cards				[]PaymentCard
-	ShippingAddress 	Address         `json:"shippingAddress" bson:"shippingAddress"`
-	BillingAddress  	BillingAddress  `json:"billingAddress" bson:"billingAddress"`
+	Cards				[]iyzico.PaymentCard
+	ShippingAddress 	iyzico.Address         `json:"shippingAddress" bson:"shippingAddress"`
+	BillingAddress  	iyzico.BillingAddress  `json:"billingAddress" bson:"billingAddress"`
 }

@@ -8,6 +8,7 @@ import (
 	"payment-system/domain/entity"
 	"payment-system/pkg/usecase"
 
+	"github.com/berkcansavur/iyzico-authorization"
 	"github.com/gorilla/mux"
 )
 
@@ -106,7 +107,7 @@ func (c *ClientController) GetCards(w http.ResponseWriter, r *http.Request) {
 }
 
 func (c *ClientController) AddCard(w http.ResponseWriter, r *http.Request) {
-	var card entity.PaymentCard
+	var card iyzico.PaymentCard
 	vars := mux.Vars(r)
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
@@ -131,7 +132,7 @@ func (c *ClientController) AddCard(w http.ResponseWriter, r *http.Request) {
 }
 
 func (c *ClientController) RemoveCard(w http.ResponseWriter, r *http.Request) {
-	var card entity.PaymentCard
+	var card iyzico.PaymentCard
 	vars := mux.Vars(r)
 	id := vars["id"]
 	ctx := r.Context()

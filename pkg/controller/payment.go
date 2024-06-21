@@ -5,8 +5,9 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"payment-system/domain/entity"
 	"payment-system/pkg/usecase"
+
+	"github.com/berkcansavur/iyzico-authorization"
 )
 
 type PaymentController struct {
@@ -14,7 +15,7 @@ type PaymentController struct {
 }
 
 func (c *PaymentController) CreatePayment(w http.ResponseWriter, r *http.Request) {
-	var createPaymentRequest entity.CreatePaymentRequest
+	var createPaymentRequest iyzico.CreatePaymentRequest
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		log.Printf("Error reading request body: %s\n", err.Error())

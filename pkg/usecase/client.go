@@ -6,6 +6,8 @@ import (
 	"log"
 	"payment-system/domain/entity"
 	interfaces "payment-system/pkg/interface"
+
+	"github.com/berkcansavur/iyzico-authorization"
 )
 
 type ClientUseCase struct {
@@ -26,10 +28,10 @@ func (c *ClientUseCase) Update(ctx context.Context, id string, updateClientDto e
 func (c *ClientUseCase) Delete(ctx context.Context, id string) (*entity.ClientDto, error) {
 	return c.ClientRepo.RemoveById(ctx, id)
 }
-func (c *ClientUseCase) GetClientsCards(ctx context.Context, id string) ([]entity.PaymentCard, error) {
+func (c *ClientUseCase) GetClientsCards(ctx context.Context, id string) ([]iyzico.PaymentCard, error) {
 	return c.ClientRepo.GetCards(ctx, id)
 }
-func (c *ClientUseCase) AddCard(ctx context.Context, id string, card entity.PaymentCard) ([]entity.PaymentCard, error) {
+func (c *ClientUseCase) AddCard(ctx context.Context, id string, card iyzico.PaymentCard) ([]iyzico.PaymentCard, error) {
 	client, err := c.Get(ctx, id)
 	if err!= nil {
         return nil, err
@@ -48,14 +50,14 @@ func (c *ClientUseCase) AddCard(ctx context.Context, id string, card entity.Paym
 	log.Println("Clients current cards",updatedClient.Cards)
 	return updatedClient.Cards, nil
 }
-func (c *ClientUseCase) RemoveCard(ctx context.Context, id string, card entity.PaymentCard) ([]entity.PaymentCard, error) {
+func (c *ClientUseCase) RemoveCard(ctx context.Context, id string, card iyzico.PaymentCard) ([]iyzico.PaymentCard, error) {
 	client, err := c.Get(ctx, id)
 	if err != nil {
 		return nil, err
 	}
 
 	cardFound := false
-	updatedCards := []entity.PaymentCard{}
+	updatedCards := []iyzico.PaymentCard{}
 	for _, existingCard := range client.Cards {
 		if existingCard.CardNumber == card.CardNumber {
 			cardFound = true
@@ -86,7 +88,8 @@ func (c *ClientUseCase) CheckoutClientsActiveBasket(ctx context.Context, clientI
 	if err != nil {
 		return entity.CreatePaymentResult{}, err
 	}
-	buyer := entity.Buyer{
+
+	buyer := iyzico.Buyer{
 		Id: client.Id,
 		Name: client.Name,
         Surname: client.Surname,
@@ -101,7 +104,7 @@ func (c *ClientUseCase) CheckoutClientsActiveBasket(ctx context.Context, clientI
         ZipCode: client.ZipCode,
 		Ip: client.Ip,
 	}
-	createPaymentRequest := entity.CreatePaymentRequest{
+	createPaymentRequest := iyzico.CreatePaymentRequest{
 		Locale: checkoutDto.Locale,
 		ConversationID: checkoutDto.ConversationID,
         Price: checkoutDto.Price,
