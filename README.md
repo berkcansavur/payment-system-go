@@ -126,6 +126,3 @@ payment-system/
 
 ## Logging
 The application uses standard Go logger for logging. Logs are generated at various levels (info, error) to provide insights into the application flow and for debugging purposes.
-
-## License
-This project is licensed under the MIT License.
